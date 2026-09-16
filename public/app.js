@@ -44,29 +44,7 @@ async function copyText(text, button) {
   }
 }
 
-function colorCell(color) {
-  const cell = document.createElement("div");
-  cell.className = "cell color";
-  cell.innerHTML = `
-    <p class="color-name" tabindex="0"></p>
-    <div class="cell-actions">
-      <button class="row-copy" type="button">Copy color</button>
-    </div>
-  `;
-  cell.querySelector(".color-name").textContent = color;
-  cell.querySelector(".row-copy").addEventListener("click", (event) => {
-    copyText(color, event.currentTarget);
-  });
-  return cell;
-}
-
-function renderImageRow(color, image, selected) {
-  const item = document.createElement("article");
-  item.className = `row${selected ? " selected" : ""}`;
-
-  const imageCell = document.createElement("div");
-  imageCell.className = "cell images";
-
+function imageLine(image) {
   const line = document.createElement("div");
   line.className = "image-row";
 
@@ -74,8 +52,8 @@ function renderImageRow(color, image, selected) {
   thumb.className = "thumb";
   thumb.src = image.thumb || image.src;
   thumb.alt = image.name;
-  thumb.width = 150;
-  thumb.height = 150;
+  thumb.width = 100;
+  thumb.height = 100;
   thumb.loading = "lazy";
   thumb.addEventListener("error", () => {
     if (thumb.src !== image.src) {
@@ -99,34 +77,55 @@ function renderImageRow(color, image, selected) {
   });
 
   line.append(thumb, name, copy);
-  imageCell.append(line);
-  item.append(colorCell(color), imageCell);
-  return item;
+  return line;
 }
 
-function renderEmptyRow(color, selected) {
+function renderGroup(row, selected) {
   const item = document.createElement("article");
   item.className = `row${selected ? " selected" : ""}`;
+
+  const colorCell = document.createElement("div");
+  colorCell.className = "cell color";
+  const colorName = document.createElement("p");
+  colorName.className = "color-name";
+  colorName.textContent = `${row.color} (${row.images.length})`;
+  colorCell.append(colorName);
+
   const imageCell = document.createElement("div");
   imageCell.className = "cell images";
-  imageCell.innerHTML = `<p class="empty">None</p>`;
-  item.append(colorCell(color), imageCell);
+  const list = document.createElement("div");
+  list.className = "image-list";
+
+  if (row.images.length) {
+    for (const image of row.images) {
+      list.append(imageLine(image));
+    }
+  } else {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "None";
+    list.append(empty);
+  }
+
+  imageCell.append(list);
+  item.append(colorCell, imageCell);
   return item;
 }
 
 function render(result) {
   titleEl.textContent = result.title;
-  rowsEl.replaceChildren();
+  document.querySelector("#count-colors").textContent = String(result.colorCount);
+  document.querySelector("#count-images").textContent = String(result.imageCount);
+  document.querySelector("#count-unlinked").textContent = String(result.unlinkedCount);
+  document.querySelector("#head-color").textContent =
+    `Variant color (${result.colorCount})`;
+  document.querySelector("#head-images").textContent =
+    `Unlinked image names (${result.unlinkedCount})`;
 
+  rowsEl.replaceChildren();
   for (const row of result.rows) {
     const isSelected = result.selectedColor && row.color === result.selectedColor;
-    if (!row.images.length) {
-      rowsEl.append(renderEmptyRow(row.color, isSelected));
-      continue;
-    }
-    for (const image of row.images) {
-      rowsEl.append(renderImageRow(row.color, image, isSelected));
-    }
+    rowsEl.append(renderGroup(row, isSelected));
   }
 
   resultEl.hidden = false;

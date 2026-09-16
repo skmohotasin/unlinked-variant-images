@@ -152,7 +152,7 @@ input[type="url"]:focus {
   flex-wrap: wrap;
   gap: 12px 16px;
   align-items: end;
-  margin-bottom: 22px;
+  margin-bottom: 10px;
 }
 
 .title-block .eyebrow {
@@ -210,7 +210,7 @@ input[type="url"]:focus {
 
 .row {
   border-top: 1px solid var(--line);
-  align-items: center;
+  align-items: start;
 }
 
 .row.selected {
@@ -233,25 +233,58 @@ input[type="url"]:focus {
   padding: 2px 0;
   font-size: 1.02rem;
   font-weight: 650;
-  user-select: all;
-  cursor: text;
+  user-select: none;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.summary li {
+  margin: 0;
+}
+
+.summary strong {
+  color: var(--ink);
+}
+
+.image-list {
+  display: grid;
+  gap: 0;
+}
+
 .image-row {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr) auto;
-  gap: 14px;
+  grid-template-columns: 100px minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.image-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.image-row:last-child {
+  padding-bottom: 0;
 }
 
 .thumb {
   box-sizing: content-box;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #ebe4d8;
   border: 1px solid var(--line);
 }
@@ -299,7 +332,7 @@ input[type="url"]:focus {
   }
 
   .image-row {
-    grid-template-columns: 150px minmax(0, 1fr);
+    grid-template-columns: 100px minmax(0, 1fr);
   }
 
   .image-row .row-copy {

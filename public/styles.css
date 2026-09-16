@@ -35,7 +35,7 @@ body {
 .shell {
   width: min(1080px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 48px 0 80px;
+  padding: 48px 0 96px;
 }
 
 .hero h1,
@@ -129,6 +129,14 @@ input[type="url"]:focus {
 .btn:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+.sticky-run {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 50;
+  box-shadow: 0 10px 28px rgba(28, 25, 22, 0.22);
 }
 
 .status {
@@ -328,6 +336,10 @@ input[type="url"]:focus {
 
   .btn {
     width: 100%;
+  }
+
+  .sticky-run {
+    width: auto;
   }
 
   .cell.color {

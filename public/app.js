@@ -1,6 +1,8 @@
 const form = document.querySelector("#crawl-form");
 const urlInput = document.querySelector("#url-input");
 const toggleBtn = document.querySelector("#toggle-btn");
+const stickyBtn = document.querySelector("#toggle-btn-sticky");
+const runButtons = [toggleBtn, stickyBtn];
 const statusEl = document.querySelector("#status");
 const errorEl = document.querySelector("#error");
 const resultEl = document.querySelector("#result");
@@ -10,9 +12,11 @@ const rowsEl = document.querySelector("#rows");
 let controller = null;
 
 function setBusy(busy) {
-  toggleBtn.textContent = busy ? "Stop" : "Start";
-  toggleBtn.classList.toggle("stop", busy);
-  toggleBtn.classList.toggle("start", !busy);
+  for (const button of runButtons) {
+    button.textContent = busy ? "Stop" : "Start";
+    button.classList.toggle("stop", busy);
+    button.classList.toggle("start", !busy);
+  }
   urlInput.disabled = busy;
 }
 

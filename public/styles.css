@@ -274,8 +274,14 @@ input[type="url"]:focus {
   grid-template-columns: 100px minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
-  padding: 10px 0;
+  margin: 0 -12px;
+  padding: 10px 12px;
   border-top: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.image-row.copied-row {
+  background: #dceee0;
 }
 
 .image-row:first-child {

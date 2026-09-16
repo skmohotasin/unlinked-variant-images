@@ -78,6 +78,7 @@ function imageLine(image) {
   copy.textContent = "Copy";
   copy.addEventListener("click", (event) => {
     copyText(image.name, event.currentTarget);
+    line.classList.add("copied-row");
   });
 
   line.append(thumb, name, copy);

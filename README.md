@@ -1,8 +1,6 @@
-# 7th Avenue Tools
+# Unlinked variant images
 
-Internal tools for 7th Avenue product pages. The first tool finds **unlinked variant images**: gallery photos that sit between a color’s linked variant images.
-
-## Unlinked variant images
+A local tool for Shopify product pages. It finds **unlinked variant images**: gallery photos that sit between a color’s linked variant images.
 
 Paste a Shopify product URL, crawl it, and review:
 
@@ -15,7 +13,7 @@ Each filename has its own **Copy** button. Thumbnails are 100×100.
 Example URL:
 
 ```
-https://7thavenue.co/collections/best-sellers/products/4-seat-sectional?variant=47901842014451
+https://store.myshopify.com/products/example
 ```
 
 ### How grouping works

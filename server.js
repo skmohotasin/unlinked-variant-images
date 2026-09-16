@@ -50,5 +50,5 @@ app.post("/api/crawl", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`7th Avenue tools running at http://localhost:${PORT}`);
+  console.log(`Unlinked variant images running at http://localhost:${PORT}`);
 });

@@ -210,6 +210,7 @@ input[type="url"]:focus {
 
 .row {
   border-top: 1px solid var(--line);
+  align-items: center;
 }
 
 .row.selected {
@@ -238,9 +239,25 @@ input[type="url"]:focus {
   overflow-wrap: anywhere;
 }
 
-.image-list {
+.image-row {
   display: grid;
-  gap: 6px;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.thumb {
+  box-sizing: content-box;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #ebe4d8;
+  border: 1px solid var(--line);
+}
+
+.thumb-fallback {
+  display: block;
 }
 
 .image-name {
@@ -279,5 +296,14 @@ input[type="url"]:focus {
   .cell.color {
     border-right: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .image-row {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .image-row .row-copy {
+    grid-column: 2;
+    justify-self: start;
   }
 }

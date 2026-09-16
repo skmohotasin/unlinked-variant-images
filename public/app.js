@@ -44,63 +44,89 @@ async function copyText(text, button) {
   }
 }
 
+function colorCell(color) {
+  const cell = document.createElement("div");
+  cell.className = "cell color";
+  cell.innerHTML = `
+    <p class="color-name" tabindex="0"></p>
+    <div class="cell-actions">
+      <button class="row-copy" type="button">Copy color</button>
+    </div>
+  `;
+  cell.querySelector(".color-name").textContent = color;
+  cell.querySelector(".row-copy").addEventListener("click", (event) => {
+    copyText(color, event.currentTarget);
+  });
+  return cell;
+}
+
+function renderImageRow(color, image, selected) {
+  const item = document.createElement("article");
+  item.className = `row${selected ? " selected" : ""}`;
+
+  const imageCell = document.createElement("div");
+  imageCell.className = "cell images";
+
+  const line = document.createElement("div");
+  line.className = "image-row";
+
+  const thumb = document.createElement("img");
+  thumb.className = "thumb";
+  thumb.src = image.thumb || image.src;
+  thumb.alt = image.name;
+  thumb.width = 150;
+  thumb.height = 150;
+  thumb.loading = "lazy";
+  thumb.addEventListener("error", () => {
+    if (thumb.src !== image.src) {
+      thumb.src = image.src;
+      return;
+    }
+    thumb.classList.add("thumb-fallback");
+  });
+
+  const name = document.createElement("p");
+  name.className = "image-name";
+  name.tabIndex = 0;
+  name.textContent = image.name;
+
+  const copy = document.createElement("button");
+  copy.className = "row-copy";
+  copy.type = "button";
+  copy.textContent = "Copy";
+  copy.addEventListener("click", (event) => {
+    copyText(image.name, event.currentTarget);
+  });
+
+  line.append(thumb, name, copy);
+  imageCell.append(line);
+  item.append(colorCell(color), imageCell);
+  return item;
+}
+
+function renderEmptyRow(color, selected) {
+  const item = document.createElement("article");
+  item.className = `row${selected ? " selected" : ""}`;
+  const imageCell = document.createElement("div");
+  imageCell.className = "cell images";
+  imageCell.innerHTML = `<p class="empty">None</p>`;
+  item.append(colorCell(color), imageCell);
+  return item;
+}
+
 function render(result) {
   titleEl.textContent = result.title;
   rowsEl.replaceChildren();
 
   for (const row of result.rows) {
     const isSelected = result.selectedColor && row.color === result.selectedColor;
-    const item = document.createElement("article");
-    item.className = `row${isSelected ? " selected" : ""}`;
-
-    const colorCell = document.createElement("div");
-    colorCell.className = "cell color";
-    colorCell.innerHTML = `
-      <p class="color-name" tabindex="0"></p>
-      <div class="cell-actions">
-        <button class="row-copy" type="button">Copy color</button>
-      </div>
-    `;
-    colorCell.querySelector(".color-name").textContent = row.color;
-    colorCell.querySelector(".row-copy").addEventListener("click", (event) => {
-      copyText(row.color, event.currentTarget);
-    });
-
-    const imageCell = document.createElement("div");
-    imageCell.className = "cell images";
-    const list = document.createElement("div");
-    list.className = "image-list";
-
-    if (row.images.length) {
-      for (const name of row.images) {
-        const line = document.createElement("p");
-        line.className = "image-name";
-        line.tabIndex = 0;
-        line.textContent = name;
-        list.append(line);
-      }
-    } else {
-      const empty = document.createElement("p");
-      empty.className = "empty";
-      empty.textContent = "None";
-      list.append(empty);
+    if (!row.images.length) {
+      rowsEl.append(renderEmptyRow(row.color, isSelected));
+      continue;
     }
-
-    const actions = document.createElement("div");
-    actions.className = "cell-actions";
-    const copyImages = document.createElement("button");
-    copyImages.className = "row-copy";
-    copyImages.type = "button";
-    copyImages.textContent = "Copy images";
-    copyImages.disabled = row.images.length === 0;
-    copyImages.addEventListener("click", (event) => {
-      copyText(row.images.join("\n"), event.currentTarget);
-    });
-    actions.append(copyImages);
-
-    imageCell.append(list, actions);
-    item.append(colorCell, imageCell);
-    rowsEl.append(item);
+    for (const image of row.images) {
+      rowsEl.append(renderImageRow(row.color, image, isSelected));
+    }
   }
 
   resultEl.hidden = false;

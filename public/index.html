@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unlinked Variant Images</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">7th Avenue Tools</p>
+        <h1>Unlinked variant images</h1>
+        <p class="lede">
+          Paste a product URL, crawl it, then copy each variant color and the
+          gallery images that sit between that color’s linked photos.
+        </p>
+      </header>
+
+      <form id="crawl-form" class="crawl-bar" autocomplete="off">
+        <label class="url-field">
+          <span>Product URL</span>
+          <input
+            id="url-input"
+            name="url"
+            type="url"
+            spellcheck="false"
+            placeholder="https://7thavenue.co/products/4-seat-sectional?variant=47901842014451"
+            value="https://7thavenue.co/collections/best-sellers/products/4-seat-sectional?variant=47901842014451"
+          />
+        </label>
+        <button id="toggle-btn" class="btn start" type="submit">Start</button>
+      </form>
+
+      <p id="status" class="status" role="status"></p>
+      <p id="error" class="error" hidden></p>
+
+      <section id="result" class="result" hidden>
+        <div class="title-block">
+          <p class="eyebrow">Product title</p>
+          <h2 id="product-title" class="copyable" tabindex="0"></h2>
+          <button class="copy-btn" type="button" data-copy-target="product-title">
+            Copy title
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-head">
+            <span>Variant color</span>
+            <span>Unlinked image names</span>
+          </div>
+          <div id="rows" class="table-body"></div>
+        </div>
+      </section>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

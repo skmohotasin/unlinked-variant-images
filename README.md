@@ -1,4 +1,4 @@
-# Unlinked variant images
+# Unlinked image tools
 
 A local tool for Shopify product pages. It finds **unlinked variant images**: gallery photos that sit between a color’s linked variant images.
 

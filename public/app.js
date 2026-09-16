@@ -80,9 +80,9 @@ function imageLine(image) {
   return line;
 }
 
-function renderGroup(row, selected) {
+function renderGroup(row) {
   const item = document.createElement("article");
-  item.className = `row${selected ? " selected" : ""}`;
+  item.className = "row";
 
   const colorCell = document.createElement("div");
   colorCell.className = "cell color";
@@ -124,17 +124,10 @@ function render(result) {
 
   rowsEl.replaceChildren();
   for (const row of result.rows) {
-    const isSelected = result.selectedColor && row.color === result.selectedColor;
-    rowsEl.append(renderGroup(row, isSelected));
+    rowsEl.append(renderGroup(row));
   }
 
   resultEl.hidden = false;
-  if (result.selectedColor) {
-    rowsEl.querySelector(".row.selected")?.scrollIntoView({
-      block: "center",
-      behavior: "smooth",
-    });
-  }
 }
 
 form.addEventListener("submit", async (event) => {
@@ -165,10 +158,7 @@ form.addEventListener("submit", async (event) => {
       throw new Error(payload.error || "Crawl failed.");
     }
     render(payload);
-    const selected = payload.selectedColor
-      ? ` Highlighted ${payload.selectedColor}.`
-      : "";
-    statusEl.textContent = `Found ${payload.rows.length} colors.${selected}`;
+    statusEl.textContent = `Found ${payload.rows.length} colors.`;
   } catch (error) {
     if (error.name === "AbortError") {
       statusEl.textContent = "Stopped.";
@@ -182,8 +172,3 @@ form.addEventListener("submit", async (event) => {
     setBusy(false);
   }
 });
-
-document.querySelector("[data-copy-target='product-title']").addEventListener(
-  "click",
-  (event) => copyText(titleEl.textContent, event.currentTarget),
-);

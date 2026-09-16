@@ -162,11 +162,8 @@ input[type="url"]:focus {
 #product-title {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.4rem);
-  user-select: all;
-  cursor: text;
 }
 
-.copy-btn,
 .row-copy {
   border: 1px solid var(--line);
   background: #fff;
@@ -179,13 +176,14 @@ input[type="url"]:focus {
   cursor: pointer;
 }
 
-.copy-btn.copied,
 .row-copy.copied {
   border-color: var(--ok);
   color: var(--ok);
 }
 
 .table-wrap {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.34fr) minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -193,12 +191,13 @@ input[type="url"]:focus {
 }
 
 .table-head,
+.table-body,
 .row {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.34fr) 1fr;
+  display: contents;
 }
 
-.table-head {
+.head-color,
+.head-images {
   padding: 12px 18px;
   background: #ebe4d8;
   font-size: 0.78rem;
@@ -208,13 +207,9 @@ input[type="url"]:focus {
   color: var(--muted);
 }
 
-.row {
-  border-top: 1px solid var(--line);
-  align-items: start;
-}
-
-.row.selected {
-  background: var(--highlight);
+.head-color,
+.cell.color {
+  border-right: 1px solid var(--line);
 }
 
 .cell {
@@ -222,8 +217,14 @@ input[type="url"]:focus {
   min-width: 0;
 }
 
+.cell.color,
+.cell.images {
+  border-top: 1px solid var(--line);
+}
+
 .cell.color {
-  border-right: 1px solid var(--line);
+  display: flex;
+  align-items: center;
 }
 
 .color-name {
@@ -233,7 +234,6 @@ input[type="url"]:focus {
   padding: 2px 0;
   font-size: 1.02rem;
   font-weight: 650;
-  user-select: none;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -317,9 +317,13 @@ input[type="url"]:focus {
 
 @media (max-width: 720px) {
   .crawl-bar,
-  .table-head,
-  .row {
+  .table-wrap {
     grid-template-columns: 1fr;
+  }
+
+  .head-color,
+  .cell.color {
+    border-right: 0;
   }
 
   .btn {

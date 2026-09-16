@@ -25,7 +25,7 @@ function showError(message) {
   errorEl.textContent = message || "";
 }
 
-async function copyText(text, button) {
+async function copyText(text) {
   if (!text) return;
   try {
     await navigator.clipboard.writeText(text);
@@ -37,28 +37,21 @@ async function copyText(text, button) {
     document.execCommand("copy");
     helper.remove();
   }
-  if (button) {
-    const original = button.textContent;
-    button.classList.add("copied");
-    button.textContent = "Copied";
-    window.setTimeout(() => {
-      button.classList.remove("copied");
-      button.textContent = original;
-    }, 1200);
-  }
 }
 
 function imageLine(image) {
-  const line = document.createElement("div");
+  const line = document.createElement("button");
+  line.type = "button";
   line.className = "image-row";
 
   const thumb = document.createElement("img");
   thumb.className = "thumb";
   thumb.src = image.thumb || image.src;
-  thumb.alt = image.name;
+  thumb.alt = "";
   thumb.width = 100;
   thumb.height = 100;
   thumb.loading = "lazy";
+  thumb.draggable = false;
   thumb.addEventListener("error", () => {
     if (thumb.src !== image.src) {
       thumb.src = image.src;
@@ -67,21 +60,15 @@ function imageLine(image) {
     thumb.classList.add("thumb-fallback");
   });
 
-  const name = document.createElement("p");
+  const name = document.createElement("span");
   name.className = "image-name";
-  name.tabIndex = 0;
   name.textContent = image.name;
 
-  const copy = document.createElement("button");
-  copy.className = "row-copy";
-  copy.type = "button";
-  copy.textContent = "Copy";
-  copy.addEventListener("click", (event) => {
-    copyText(image.name, event.currentTarget);
+  line.append(thumb, name);
+  line.addEventListener("click", () => {
+    copyText(image.name);
     line.classList.add("copied-row");
   });
-
-  line.append(thumb, name, copy);
   return line;
 }
 

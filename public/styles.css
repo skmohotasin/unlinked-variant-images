@@ -172,23 +172,6 @@ input[type="url"]:focus {
   font-size: clamp(1.6rem, 3vw, 2.4rem);
 }
 
-.row-copy {
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--ink);
-  border-radius: 999px;
-  padding: 7px 12px;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.row-copy.copied {
-  border-color: var(--ok);
-  color: var(--ok);
-}
-
 .table-wrap {
   display: grid;
   grid-template-columns: minmax(200px, 0.34fr) minmax(0, 1fr);
@@ -271,17 +254,33 @@ input[type="url"]:focus {
 
 .image-row {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr) auto;
+  grid-template-columns: 100px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
+  width: calc(100% + 24px);
   margin: 0 -12px;
   padding: 10px 12px;
+  border: 0;
   border-top: 1px solid var(--line);
   border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .image-row.copied-row {
   background: #dceee0;
+}
+
+.image-row:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.image-row.copied-row:hover {
+  background: #d0e6d5;
 }
 
 .image-row:first-child {
@@ -309,13 +308,11 @@ input[type="url"]:focus {
 
 .image-name {
   display: block;
-  margin: 0;
-  padding: 2px 0;
+  min-width: 0;
   font-family: "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
   font-size: 0.92rem;
   line-height: 1.45;
-  user-select: all;
-  cursor: text;
+  user-select: none;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -355,10 +352,5 @@ input[type="url"]:focus {
 
   .image-row {
     grid-template-columns: 100px minmax(0, 1fr);
-  }
-
-  .image-row .row-copy {
-    grid-column: 2;
-    justify-self: start;
   }
 }
